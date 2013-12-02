@@ -1,0 +1,48 @@
+
+The source language does not support lambdas yet. If they were implemented,
+we'd want closed variables to be writable, and emulating that is not as simple
+as emulating a read-only closure. I decided to save time.
+
+We don't do Hindley-Milner to SSA because we want to detect borrowing
+during typing, and there's no obvious way to do it with H-M.
+We could use H-M if the user annotated borrowing sites by hand.
+
+
+
+Some intuitions about polymorphic uniqueness attributes:
+
+`x : forall u:A. T^u` means
+  - x is effectively unique since we can cast x to T*
+
+Taking a parameter T^u means
+  - we accept both unique and non-unique parameters.
+  - in the body of the function, u is rigid, unlike a variable forall u:A. T^u
+  - if we return (or unborrow) T^u, then its uniqueness has been preserved
+
+Returning x : T^u where u is unbounded means
+  - x is effectively unique since we can cast the return value to T*
+
+
+
+The rank-1 version of De Vries' system is problematic with
+higher-order functions.
+Consider:
+
+    f : (forall u. Int -> T^u) -> T*
+    f g = ...
+
+With the rank-1 version, we lose the ability to
+demand a function that returns T in any uniqueness.
+
+Say we tried:
+
+    f : forall u. (Int -> T^u) -> T*
+    f g = ...
+
+Now `g` would be useless since we cannot unify `u = *` (because `f` must now work for any `u`).
+
+Clean's type system has subtyping so it's much less reliant on rank-n types.
+With De Vries' system, we can hack around the problem by doing
+
+    f : forall u. (Int -> T*) -> T*
+    f g' = let g = gen(g') in ... 

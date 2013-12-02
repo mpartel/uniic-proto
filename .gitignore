@@ -1,0 +1,22 @@
+# Build products
+/reports
+/target
+/project/target
+/project/project/target
+
+# Eclipse
+/.classpath
+/.project
+/.settings
+/.cache
+/.scala_dependencies
+/.worksheet
+*.sc
+
+# IntelliJ IDEA
+/.idea
+/.idea_modules
+
+# Misc
+/tmp
+
