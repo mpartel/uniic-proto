@@ -148,6 +148,8 @@ case object GrsIfThenElse extends GrsValue {
 case class GrsMatch(numCases: Int) extends GrsValue {
   type Self = GrsMatch
   val arity = 1 + numCases
+
+  override def isLazyEdge(index: Int) = index > 0
 }
 
 /** The first child is the pattern and the second child is the body. */

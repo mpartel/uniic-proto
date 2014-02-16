@@ -21,18 +21,7 @@ abstract class Example {
     assert(lambdaNode.value.isInstanceOf[GrsLambda])
     val grsToEval = Grs(GrsApply(0).toNode(Seq(lambdaNode)))
 
-    try {
-      GrsEval.eval(grsToEval)
-    } catch {
-      case ex: GrsEval.StuckException => {
-        debugStuckException(ex)
-        throw ex
-      }
-    }
-  }
-
-  def debugStuckException(ex: GrsEval.StuckException) {
-    ex.state.toGraphviz.setName("stuck").writeImageToDebugDir()
+    GrsEval.eval(grsToEval)
   }
 
   def fail(msg: String) = throw new AssertionError(msg)

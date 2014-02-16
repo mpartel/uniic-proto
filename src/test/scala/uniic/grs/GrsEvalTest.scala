@@ -46,6 +46,9 @@ class GrsEvalTest extends FunSuite with BeforeAndAfterEach with GrsTestUtils {
   t("let f = \\y. y in f(4)" -> "4")
   t("let f = \\y. f in 5" -> "5")
   t("let f = \\y. x and x = 10 in f(3)" -> "10")
+  t("let f = \\y. y + 1 and g = \\y. y * 2 in f(g(4))" -> "9")
+
+  t("1 + 2 * 3" -> "7")
 
   t("if 1 + 1 == 2 then 3 else 4" -> "3")
   t("if 1 + 1 == 20 then 3 else 4" -> "4")
