@@ -50,7 +50,6 @@ abstract sealed class BoolTerm {
   def quickSimplify: BoolTerm = { // Only cleans up the most obvious messes
     def simplify1(t: BoolTerm): BoolTerm = {
       t match {
-        case BAnd(BTrue, BTrue) => BTrue
         case BAnd(BFalse, _) => BFalse
         case BAnd(_, BFalse) => BFalse
         case BAnd(BTrue, r) => r
@@ -59,7 +58,6 @@ abstract sealed class BoolTerm {
         case BAnd(l, r) if l == BNot(r) || BNot(l) == r => BFalse
         case BAnd(l, r) => BAnd(simplify1(l), simplify1(r))
 
-        case BOr(BFalse, BFalse) => BFalse
         case BOr(BTrue, _) => BTrue
         case BOr(_, BTrue) => BTrue
         case BOr(BFalse, r) => r
