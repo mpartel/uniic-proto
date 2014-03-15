@@ -191,10 +191,7 @@ trait GrsTyping extends ExceptionContexts {
         case GrsTuple(n) => {
           val childAttrs = node.children.map(e => typing(e).attr)
           val attr = childAttrs.foldLeft(attrVarGen.take(): TypeAttr)(AOr(_, _))
-          Seq(
-            initialTy.baseType =:= TTuple(node.children.map(typing)),
-            initialTy.attr =:= attr
-          )
+          Seq(initialTy =:= TTuple(node.children.map(typing)).withAttr(attr))
         }
         case GrsMatch(numCases) => {
           val headTy = typing(node.children(0))

@@ -200,7 +200,7 @@ class SSATyping extends ExceptionContexts {
         val argEqs = args.collect {
           case FlowBorrowedArg(in, out) => symTab(in) =:= symTab(out)
         }
-        val funAttr = attrVarGen.take()
+        val funAttr = symTab(f).attr
         val returnTy = symTab(v)
         argEqs :+ (symTab(f) =:= TFun(argTypes, funAttr, returnTy).withAttr(funAttr))
       }
