@@ -3,9 +3,9 @@ The source language does not support lambdas yet. If they were implemented,
 we'd want closed variables to be writable, and emulating that is not as simple
 as emulating a read-only closure. I decided to save time.
 
-We don't do Hindley-Milner to SSA because we want to detect borrowing
-during typing, and there's no obvious way to do it with H-M.
-We could use H-M if the user annotated borrowing sites by hand.
+We can do Hindley-Milner on the imperative SSA because we the user annotates
+borrowing sites by hand. I see no easy way to do borrowing detection during
+Hindley-Milner type inference.
 
 
 
